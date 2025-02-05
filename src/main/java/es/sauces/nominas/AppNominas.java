@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class AppNominas {
 
     public static void main(String[] args) {
-        Empleado empleado=null;
+        Empleado empleado = null;
         SistemaNominas sistema;
         int opcion;
         sistema = new SistemaNominas();
@@ -41,18 +41,18 @@ public class AppNominas {
                     System.out.println("2- Empleado Eventual");
                     opcion = teclado.nextInt();
                     teclado.nextLine();
-                    switch(opcion){
+                    switch (opcion) {
                         case 1 -> {
                             System.out.print("Introduzca salario: ");
                             salario = teclado.nextFloat();
-                            empleado = new EmpleadoFijo(salario,dni,nombre);
+                            empleado = new EmpleadoFijo(dni, nombre, salario);
                         }
                         case 2 -> {
                             System.out.print("Introduzca salario por hora: ");
                             salarioHora = teclado.nextFloat();
                             System.out.print("Introduzca horas: ");
                             horas = teclado.nextInt();
-                            empleado = new EmpleadoEventual(salarioHora,dni,nombre,horas);
+                            empleado = new EmpleadoEventual(dni, nombre, horas, salarioHora);
                         }
                     }
                     if (sistema.incluirEmpleado(empleado)) {
@@ -84,23 +84,19 @@ public class AppNominas {
                         }
 
                         case 4 -> {
-                            if (sistema!=null) {
-                                System.out.println(sistema.listarEmpleados());
-                            } else {
-                                System.out.println("No se pueden listar empleados");
+                            for(Empleado e: sistema.listarEmpleados()){
+                                 System.out.println(e);
                             }
                         }
-                        
+
                         case 5 -> {
-                            if (sistema!=null) {
-                                System.out.println(sistema.listarEmpleadosPorSueldo());
-                            } else {
-                                System.out.println("No se pueden listar empleados");
+                            for(Empleado e: sistema.listarEmpleadosPorSueldo()){
+                                 System.out.println(e);
                             }
                         }
-                        
+
                         case 6 -> {
-                            if (sistema!=null) {
+                            if (sistema != null) {
                                 System.out.println(sistema.getTotalSalarios());
                             } else {
                                 System.out.println("No se puede obtener la informacion solicitada, puede que el sistema este vacio");

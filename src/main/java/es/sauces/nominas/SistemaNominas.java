@@ -5,8 +5,9 @@
 package es.sauces.nominas;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -14,23 +15,19 @@ import java.util.List;
  */
 public class SistemaNominas extends ComparadorSueldo {
 
-    private List<Empleado> empleados;
-    private ComparadorSueldo comparadors;
+    private Set<Empleado> empleados;
 
     public SistemaNominas() {
-        empleados = new LinkedList<>();
+        empleados = new TreeSet<>();
     }
 
     public boolean incluirEmpleado(Empleado empleado) {
-        if (!empleados.contains(empleado) && empleado != null) {
-            return empleados.add(empleado);
-        }
-        return false;
+        return empleados.add(empleado);
     }
 
     public Empleado getEmpleado(String dni) {
         for (Empleado e : empleados) {
-            if(e.getDni().equals(dni)){
+            if (e.getDni().equals(dni)) {
                 return e;
             }
         }
@@ -46,13 +43,15 @@ public class SistemaNominas extends ComparadorSueldo {
     }
 
     public List<Empleado> listarEmpleadosPorSueldo() {
-        return new ArrayList<>(empleados);
+        List<Empleado> lista=new ArrayList<>(empleados);
+        lista.sort(new ComparadorSueldo().reversed());
+        return lista;
     }
 
     public float getTotalSalarios() {
         float acumulador = 0;
         for (Empleado e : empleados) {
-            acumulador += (empleados.get(empleados.indexOf(e))).ingresos();
+            acumulador += (e.ingresos());
         }
         return acumulador;
     }

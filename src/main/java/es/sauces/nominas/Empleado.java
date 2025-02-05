@@ -10,10 +10,11 @@ import java.util.Objects;
  *
  * @author cristian.matveg
  */
-public abstract class Empleado implements Comparable<Empleado>{
+public abstract class Empleado implements Comparable<Empleado> {
+
     private String dni;
     private String nombre;
-    
+
     public Empleado() {
     }
 
@@ -42,10 +43,9 @@ public abstract class Empleado implements Comparable<Empleado>{
         this.nombre = nombre;
     }
 
-    
     @Override
     public String toString() {
-        return dni + " - " + nombre;
+        return dni + " | " + nombre;
     }
 
     @Override
@@ -69,11 +69,11 @@ public abstract class Empleado implements Comparable<Empleado>{
         final Empleado other = (Empleado) obj;
         return Objects.equals(this.dni, other.dni);
     }
-    
+
     @Override
-    public int compareTo(Empleado empleado){
+    public int compareTo(Empleado empleado) {
         return this.nombre.compareTo(empleado.nombre);
     }
-    
+
     public abstract float ingresos();
 }

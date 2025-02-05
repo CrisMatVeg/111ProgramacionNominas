@@ -8,7 +8,8 @@ package es.sauces.nominas;
  *
  * @author cristian.matveg
  */
-public class EmpleadoFijo extends Empleado{
+public class EmpleadoFijo extends Empleado {
+
     private float salario;
 
     public EmpleadoFijo() {
@@ -18,19 +19,19 @@ public class EmpleadoFijo extends Empleado{
         super(dni);
     }
 
-    public EmpleadoFijo(float salario, String dni, String nombre) {
+    public EmpleadoFijo(String dni, String nombre, float salario) {
         super(dni, nombre);
         this.salario = salario;
     }
 
     @Override
     public String toString() {
-        return super.getNombre() + " " + super.getDni() + " " + salario;
+        return super.toString() + " | " + salario;
     }
 
     @Override
-    public float ingresos(){
-        return salario;   
+    public float ingresos() {
+        return salario;
     }
-    
+
 }
