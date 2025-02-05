@@ -3,6 +3,8 @@
  */
 package es.sauces.nominas;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,10 +30,11 @@ public class AppNominas {
             System.out.println("4- Listas Empleados");
             System.out.println("5- Listar Empleados por sueldo");
             System.out.println("6- Consultar total salarios");
+            System.out.println("7- Listar Empleados por nombre");
             System.out.println("0- Salir");
             opcion = teclado.nextInt();
             teclado.nextLine();
-            if (opcion >= 1 && opcion <= 6) {
+            if (opcion >= 1 && opcion <= 7) {
                 if (opcion == 1) {
                     System.out.print("Introduzca nombre: ");
                     nombre = teclado.nextLine();
@@ -102,7 +105,20 @@ public class AppNominas {
                                 System.out.println("No se puede obtener la informacion solicitada, puede que el sistema este vacio");
                             }
                         }
+                        case 7 -> {
+                        List<Empleado> listadoEmpleados=sistema.listarEmpleados();
+                        listadoEmpleados.sort(new Comparator<Empleado>() {
+                            @Override
+                            public int compare(Empleado o1, Empleado o2) {
+                                return o1.getNombre().compareTo(o2.getNombre());
+                            }
+                        });
+                        for(Empleado e: listadoEmpleados){
+                            System.out.println(e);
+                        }
+ 
                     }
+                }
                 }
             } else {
                 System.out.println("Adios");
