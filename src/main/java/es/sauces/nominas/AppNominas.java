@@ -87,14 +87,14 @@ public class AppNominas {
                         }
 
                         case 4 -> {
-                            for(Empleado e: sistema.listarEmpleados()){
-                                 System.out.println(e);
+                            for (Empleado e : sistema.listarEmpleados()) {
+                                System.out.println(e);
                             }
                         }
 
                         case 5 -> {
-                            for(Empleado e: sistema.listarEmpleadosPorSueldo()){
-                                 System.out.println(e);
+                            for (Empleado e : sistema.listarEmpleadosPorSueldo()) {
+                                System.out.println(e);
                             }
                         }
 
@@ -106,19 +106,19 @@ public class AppNominas {
                             }
                         }
                         case 7 -> {
-                        List<Empleado> listadoEmpleados=sistema.listarEmpleados();
-                        listadoEmpleados.sort(new Comparator<Empleado>() {
-                            @Override
-                            public int compare(Empleado o1, Empleado o2) {
-                                return o1.getNombre().compareTo(o2.getNombre());
+                            List<Empleado> listadoEmpleados = sistema.listarEmpleados();
+                            listadoEmpleados.sort(new Comparator<Empleado>() {
+                                @Override
+                                public int compare(Empleado o1, Empleado o2) {
+                                    return o1.getNombre().compareTo(o2.getNombre());
+                                }
+                            });
+                            for (Empleado e : listadoEmpleados) {
+                                System.out.println(e);
                             }
-                        });
-                        for(Empleado e: listadoEmpleados){
-                            System.out.println(e);
+
                         }
- 
                     }
-                }
                 }
             } else {
                 System.out.println("Adios");
