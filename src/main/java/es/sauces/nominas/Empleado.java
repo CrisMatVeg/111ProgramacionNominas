@@ -12,26 +12,35 @@ import java.util.Objects;
  */
 public abstract class Empleado implements Comparable<Empleado> {
 
-    private String dni;
+    private Dni dni;
     private String nombre;
 
     public Empleado() {
     }
 
-    public Empleado(String dni) {
+    public Empleado(Dni dni) throws DniException {
+        if(!Dni.esValido(dni.getDni())){
+            throw new DniException("Dni Incorrecto");
+        }
         this.dni = dni;
     }
 
-    public Empleado(String dni, String nombre) {
+    public Empleado(Dni dni, String nombre) throws DniException {
+        if(!Dni.esValido(dni.getDni())){
+            throw new DniException("Dni Incorrecto");
+        }
         this.dni = dni;
         this.nombre = nombre;
     }
 
-    public String getDni() {
+    public Dni getDni() {
         return dni;
     }
 
-    public void setDni(String dni) {
+    public void setDni(Dni dni) throws DniException {
+        if(!Dni.esValido(dni.getDni())){
+            throw new DniException("Dni Incorrecto");
+        }
         this.dni = dni;
     }
 
@@ -72,7 +81,7 @@ public abstract class Empleado implements Comparable<Empleado> {
 
     @Override
     public int compareTo(Empleado empleado) {
-        return this.nombre.compareTo(empleado.nombre);
+        return this.dni.compareTo(empleado.dni);
     }
 
     public abstract float ingresos();

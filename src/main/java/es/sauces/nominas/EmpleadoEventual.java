@@ -16,19 +16,25 @@ public class EmpleadoEventual extends Empleado {
     public EmpleadoEventual() {
     }
 
-    public EmpleadoEventual(String dni) {
+    public EmpleadoEventual(Dni dni) throws DniException {
         super(dni);
     }
 
-    public EmpleadoEventual(String dni, String nombre, int horas, float salarioHora) {
+    public EmpleadoEventual(Dni dni, String nombre, float salarioHora, int horas) throws DniException {
         super(dni, nombre);
+        if (salarioHora < 0) {
+            throw new IllegalArgumentException("El salario no puede ser negativo");
+        }
+        if (horas < 0) {
+            throw new IllegalArgumentException("Las horas no pueden ser negativas");
+        }
         this.salarioHora = salarioHora;
         this.horas = horas;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " | " + salarioHora + " | " + horas + " ("+this.ingresos()+")";
+        return super.toString() + " | " + salarioHora + " | " + horas + " (" + this.ingresos() + ")";
     }
 
     @Override

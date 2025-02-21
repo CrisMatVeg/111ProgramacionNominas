@@ -15,12 +15,15 @@ public class EmpleadoFijo extends Empleado {
     public EmpleadoFijo() {
     }
 
-    public EmpleadoFijo(String dni) {
+    public EmpleadoFijo(Dni dni) throws DniException {
         super(dni);
     }
 
-    public EmpleadoFijo(String dni, String nombre, float salario) {
+    public EmpleadoFijo(Dni dni, String nombre, float salario) throws DniException {
         super(dni, nombre);
+        if (salario < 0) {
+            throw new IllegalArgumentException("El saldo no puede ser negativo");
+        }
         this.salario = salario;
     }
 

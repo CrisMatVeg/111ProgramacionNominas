@@ -3,9 +3,16 @@
  */
 package es.sauces.nominas;
 
+import java.io.IOException;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * @version 21
@@ -13,15 +20,20 @@ import java.util.Scanner;
  */
 public class AppNominas {
 
-    public static void main(String[] args) {
+    private static final Logger LOG=Logger.getLogger("es.sauces.nominas");
+    public static void main(String[] args) throws IOException {
         Empleado empleado = null;
-        SistemaNominas sistema;
+        SistemaNominas sistema = new SistemaNominas();
         int opcion;
-        sistema = new SistemaNominas();
-        String nombre, dni;
+        String nombre;
+        String dni;
         float salario, salarioHora;
         int horas;
         Scanner teclado = new Scanner(System.in);
+        Handler controlador=new FileHandler("./registro.log,",true);
+        controlador.setFormatter(new SimpleFormatter());
+        LOG.addHandler(controlador);
+        LogManager.getLogManager().readConfiguration(ClassLoader.getSystemClassLoader().getResourceAsStream("mylogging.properties"));
 
         do {
             System.out.println("1- Crear Empleado");
@@ -34,55 +46,87 @@ public class AppNominas {
             System.out.println("0- Salir");
             opcion = teclado.nextInt();
             teclado.nextLine();
-            if (opcion >= 1 && opcion <= 7) {
+            if (opcion >= 0 && opcion <= 7) {
                 if (opcion == 1) {
-                    System.out.print("Introduzca nombre: ");
-                    nombre = teclado.nextLine();
-                    System.out.print("Introduzca DNI: ");
-                    dni = teclado.nextLine();
                     System.out.println("1- Empleado Fijo");
                     System.out.println("2- Empleado Eventual");
                     opcion = teclado.nextInt();
                     teclado.nextLine();
                     switch (opcion) {
                         case 1 -> {
+                            System.out.print("Introduzca DNI: ");
+                            dni=teclado.nextLine();
+                            System.out.print("Introduzca nombre: ");
+                            nombre=teclado.nextLine();
+                            try {
                             System.out.print("Introduzca salario: ");
-                            salario = teclado.nextFloat();
-                            empleado = new EmpleadoFijo(dni, nombre, salario);
+                            salario=teclado.nextFloat();  
+                            empleado=new EmpleadoFijo(Dni.valueOf(dni),nombre,salario);
+                            if (sistema.incluirEmpleado(empleado)){
+                                System.out.println("Empleado introducido correctamente.");
+                            }
+                            else{
+                                System.out.println("ERROR");
+                            }
+                        } catch (DniException | IllegalArgumentException | InputMismatchException ex) {
+                            System.out.println(ex.getMessage());
+                        }finally{
+                            teclado.nextLine();
+                        }
                         }
                         case 2 -> {
-                            System.out.print("Introduzca salario por hora: ");
-                            salarioHora = teclado.nextFloat();
+                            System.out.print("Introduzca DNI: ");
+                            dni=teclado.nextLine();
+                            System.out.print("Introduzca nombre: ");
+                            nombre=teclado.nextLine();
+                            try {
+                            System.out.print("Introduzca salario hora: ");
+                            salario=teclado.nextFloat();
                             System.out.print("Introduzca horas: ");
-                            horas = teclado.nextInt();
-                            empleado = new EmpleadoEventual(dni, nombre, horas, salarioHora);
+                            horas=teclado.nextInt(); 
+                            empleado=new EmpleadoEventual(Dni.valueOf(dni),nombre,salario,horas);
+                             if (sistema.incluirEmpleado(empleado)){
+                                System.out.println("Empleado introducido correctamente.");
+                            }
+                            else{
+                                System.out.println("ERROR");
+                            }
+                        } catch (DniException | IllegalArgumentException | InputMismatchException ex) {
+                            System.out.println(ex.getMessage());
+                        }finally{
+                            teclado.nextLine();
                         }
-                    }
-                    if (sistema.incluirEmpleado(empleado)) {
-                        System.out.println("Empleado añadido.");
-                    } else {
-                        System.out.println("El empleado no pudo ser añadido, puede que ya exista");
+
+                        }
                     }
                 } else {
                     switch (opcion) {
                         case 2 -> {
                             System.out.println("Introduzca DNI del empleado que quiere consultar");
                             dni = teclado.nextLine();
-                            empleado = sistema.getEmpleado(dni);
-                            if (empleado != null) {
-                                System.out.println(empleado);
-                            } else {
-                                System.out.println("No se encontro el empleado");
+                            try {
+                                empleado = sistema.getEmpleado(dni);
+                                if (empleado != null) {
+                                    System.out.println(empleado);
+                                } else {
+                                    System.out.println("No se encontro el empleado");
+                                }
+                            } catch (DniException ex) {
+                                System.out.println(ex.getMessage());
                             }
                         }
                         case 3 -> {
                             System.out.print("Introduzca DNI del empleado que quiere eliminar: ");
                             dni = teclado.nextLine();
-                            empleado = sistema.getEmpleado(dni);
-                            if (sistema.eliminarEmpleado(empleado)) {
-                                System.out.println("Empleado eliminado");
-                            } else {
-                                System.out.println("No se pudo eliminar el empleado, puede que no exista");
+                            try {
+                                empleado = sistema.getEmpleado(dni);
+                                if (sistema.eliminarEmpleado(empleado)) {
+                                    System.out.println("Empleado eliminado");
+                                } else {
+                                    System.out.println("No se pudo eliminar el empleado, puede que no exista");
+                                }
+                            } catch (DniException ex) {
+                                System.out.println(ex.getMessage());
                             }
                         }
 

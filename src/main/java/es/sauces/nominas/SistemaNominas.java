@@ -15,19 +15,19 @@ import java.util.TreeSet;
  */
 public class SistemaNominas extends ComparadorSueldo {
 
-    private Set<Empleado> empleados;
+    private final Set<Empleado> empleados;
 
     public SistemaNominas() {
         empleados = new TreeSet<>();
     }
 
-    public boolean incluirEmpleado(Empleado empleado) {
+    public boolean incluirEmpleado(Empleado empleado) throws DniException {
         return empleados.add(empleado);
     }
 
-    public Empleado getEmpleado(String dni) {
+    public Empleado getEmpleado(String dni) throws DniException {
         for (Empleado e : empleados) {
-            if (e.getDni().equals(dni)) {
+            if (e.getDni().equals(Dni.valueOf(dni))) {
                 return e;
             }
         }
