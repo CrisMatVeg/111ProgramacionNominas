@@ -5,11 +5,14 @@
 package es.sauces.nominas;
 
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Dni implements Comparable<Dni>{
     private String dni;
+    private static final Logger LOG = Logger.getLogger(Dni.class.getName());
  
     private Dni(String dni) throws DniException {
         if(!esValido(dni)){
@@ -76,6 +79,7 @@ public class Dni implements Comparable<Dni>{
 
     public static Dni valueOf(String dni) throws DniException {
         if(!esValido(dni)){
+            LOG.log(Level.WARNING,"Formato DNI incorrecto: {0}", dni);
             throw new DniException("Formato DNI incorrecto");
         }
         return new Dni(dni);

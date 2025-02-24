@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -30,7 +31,7 @@ public class AppNominas {
         float salario, salarioHora;
         int horas;
         Scanner teclado = new Scanner(System.in);
-        Handler controlador=new FileHandler("./registro.log,",true);
+        Handler controlador=new FileHandler("./registro.log",true);
         controlador.setFormatter(new SimpleFormatter());
         LOG.addHandler(controlador);
         LogManager.getLogManager().readConfiguration(ClassLoader.getSystemClassLoader().getResourceAsStream("mylogging.properties"));

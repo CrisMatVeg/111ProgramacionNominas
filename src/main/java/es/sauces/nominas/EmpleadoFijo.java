@@ -4,6 +4,9 @@
  */
 package es.sauces.nominas;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author cristian.matveg
@@ -11,6 +14,7 @@ package es.sauces.nominas;
 public class EmpleadoFijo extends Empleado {
 
     private float salario;
+    private static final Logger LOG = Logger.getLogger(EmpleadoEventual.class.getName());
 
     public EmpleadoFijo() {
     }
@@ -22,7 +26,8 @@ public class EmpleadoFijo extends Empleado {
     public EmpleadoFijo(Dni dni, String nombre, float salario) throws DniException {
         super(dni, nombre);
         if (salario < 0) {
-            throw new IllegalArgumentException("El saldo no puede ser negativo");
+            LOG.log(Level.WARNING,"El salario no puede ser negativo: {0}",salario);
+            throw new IllegalArgumentException("El salario no puede ser negativo");
         }
         this.salario = salario;
     }

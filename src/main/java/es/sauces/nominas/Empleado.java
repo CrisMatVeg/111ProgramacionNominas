@@ -5,6 +5,8 @@
 package es.sauces.nominas;
 
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,6 +16,7 @@ public abstract class Empleado implements Comparable<Empleado> {
 
     private Dni dni;
     private String nombre;
+    private static final Logger LOG = Logger.getLogger(Empleado.class.getName());
 
     public Empleado() {
     }
